@@ -31,10 +31,10 @@
 (defun make-nodeid (&optional id)
   (if id
       (%make-nodeid id)
-      (frugal-uuid:make-v4)))
+      (frugal-uuid:make-v7)))
 
-#+nil (frugal-uuid:make-v4)
-#+nil (frugal-uuid:to-string (frugal-uuid:make-v4))
+#+nil (frugal-uuid:make-v7)
+#+nil (frugal-uuid:to-string (frugal-uuid:make-v7))
 
 (defmethod save-nodeid ((idstr string) &key (if-exists :error)) ; :error or :supersede
   (assert (typep (frugal-uuid:from-string idstr) 'frugal-uuid:uuid)()
@@ -48,7 +48,7 @@
 (defmethod save-nodeid ((id frugal-uuid:uuid) &key (if-exists :error)) ; :error or :supersede
   (save-nodeid (frugal-uuid:to-string id)))
 
-#+nil (defparameter $id (frugal-uuid:make-v4))
+#+nil (defparameter $id (frugal-uuid:make-v7))
 #+nil (save-nodeid $id)
 #+nil (save-nodeid (frugal-uuid:to-string $id))
 
@@ -59,7 +59,16 @@
       (when in
         (read in)))))
 
-#+nil (defparameter $id (frugal-uuid:make-v4))
+
+(defun reset-nodeid ()
+  (let ((savepath (nodeid-pathname))
+        (newid (make-nodeid)))
+    (when (probe-file savepath)
+      (delete-file savepath))
+    (save-nodeid newid)
+    newid))
+
+#+nil (defparameter $id (frugal-uuid:make-v7))
 #+nil (read-nodeid)
 
 (defun ensure-nodeid ()
@@ -71,3 +80,4 @@
 
 #+nil (read-nodeid)
 #+nil (ensure-nodeid)
+#+nil (reset-nodeid)

@@ -2,6 +2,14 @@
 
 (defpackage #:net.bardcode.nodeid
   (:use #:cl)
-  (:export ))
+  (:nicknames :nodeid)
+  (:export
+   #:ensure-nodeid
+   #:make-nodeid
+   #:nodeid-pathname
+   #:read-nodeid
+   #:reset-nodeid
+   #:save-nodeid
+   ))
 
 
