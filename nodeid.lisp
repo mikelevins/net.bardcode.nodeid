@@ -76,7 +76,7 @@
     (or found
         (let ((id (make-nodeid)))
           (save-nodeid id)
-          id))))
+          (frugal-uuid:to-string id)))))
 
 #+nil (read-nodeid)
 #+nil (ensure-nodeid)
